@@ -10,19 +10,8 @@ import java.util.*;
 
 public class BooleanSearchEngine implements SearchEngine {
     //???
-    Path pdfs;
-    String name;
-    Integer count;
-    Map<String, Integer> freqs;
-    List<PageEntry> pageEntryList;
-
-    public String getName() {
-        return name;
-    }
-
-    public Integer getCount() {
-        return count;
-    }
+    private Map<String, Integer> freqs;
+    private List<PageEntry> pageEntryList;
 
     public BooleanSearchEngine(File pdfsDir) throws IOException {
         // прочтите тут все pdf и сохраните нужные данные,
