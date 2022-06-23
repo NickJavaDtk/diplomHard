@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.Map;
 
 public class PageEntry implements Comparable<PageEntry> {
@@ -22,8 +23,11 @@ public class PageEntry implements Comparable<PageEntry> {
     }
 
     @Override
-    public int compareTo(PageEntry o) {
-        return -(count - o.count);
+    public int compareTo(PageEntry obj) {
+        int tmpPage = page - obj.page;
+        int tmpCount = count - obj.count;
+        return tmpCount == 0 ? tmpPage : -tmpCount;
+
     }
 
     @Override
@@ -34,6 +38,7 @@ public class PageEntry implements Comparable<PageEntry> {
                 ", count=" + count +
                 '}';
     }
+
 
     // ???
 }

@@ -17,7 +17,6 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         BooleanSearchEngine engine = new BooleanSearchEngine(new File(path));
-
         try (ServerSocket serverSocket = new ServerSocket(port);) {
             String input;
             while (true) {

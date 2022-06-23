@@ -6,13 +6,14 @@ import org.w3c.dom.ls.LSOutput;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.sql.Array;
 import java.util.*;
 
 public class BooleanSearchEngine implements SearchEngine {
     //???
     private Map<String, Integer> freqs;
-    private List<PageEntry> pageEntryList;
-    private Map<String, List<PageEntry>> resultMap;
+    private TreeSet pageEntryList;
+    private Map<String, Set<PageEntry>> resultMap;
 
     public BooleanSearchEngine(File pdfsDir) throws IOException {
         // прочтите тут все pdf и сохраните нужные данные,
@@ -38,16 +39,16 @@ public class BooleanSearchEngine implements SearchEngine {
                     String tmpString = mapEntry.getKey( );
                     int tmpInt = mapEntry.getValue( );
                     PageEntry pageTmp = new PageEntry(file.getName( ), i, tmpInt);
-                    pageEntryList = new ArrayList<>( );
+                    pageEntryList = new TreeSet( );
                     pageEntryList.add(pageTmp);
                     if (resultMap.isEmpty( )) {
                         resultMap.put(tmpString, pageEntryList);
                     } else if (!resultMap.containsKey(tmpString)) {
                         resultMap.put(tmpString, pageEntryList);
                     } else {
-                        for (Map.Entry<String, List<PageEntry>> mapPageEntry : resultMap.entrySet( )) {
+                        for (Map.Entry<String, Set<PageEntry>> mapPageEntry : resultMap.entrySet( )) {
                             if (tmpString.equals(mapPageEntry.getKey( ))) {
-                                List<PageEntry> page = new ArrayList<>(mapPageEntry.getValue( ));
+                                Set<PageEntry> page = new TreeSet<>(mapPageEntry.getValue( ));
                                 page.add(pageTmp);
                                 resultMap.put(tmpString, page);
                             }
@@ -61,14 +62,8 @@ public class BooleanSearchEngine implements SearchEngine {
     @Override
     public List<PageEntry> search(String word) {
         // тут реализуйте поиск по слову
-
-        List<PageEntry> sortPage = new ArrayList<>( );//
-        for (Map.Entry<String, List<PageEntry>> entryMap : resultMap.entrySet( )) {
-            if (word.equals(entryMap.getKey( ))) {
-                sortPage = entryMap.getValue( );
-            }
-        }
-        Collections.sort(sortPage);
+        String input = word.toLowerCase( );
+        List<PageEntry> sortPage = new ArrayList<>(resultMap.get(input));
         return sortPage;
     }
 
